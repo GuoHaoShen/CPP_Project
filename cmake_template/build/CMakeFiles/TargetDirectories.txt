@@ -1,0 +1,3 @@
+/home/gh_luck/CPP_Project/cmake_template/build/CMakeFiles/edit_cache.dir
+/home/gh_luck/CPP_Project/cmake_template/build/CMakeFiles/rebuild_cache.dir
+/home/gh_luck/CPP_Project/cmake_template/build/CMakeFiles/HelloWorld.dir
