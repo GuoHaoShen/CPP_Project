@@ -1,0 +1,3 @@
+/usr/local/include/matplotlibcpp.h
+/usr/local/lib/matplotlib_cpp/cmake/matplotlib_cppTargets.cmake
+/usr/local/lib/matplotlib_cpp/cmake/matplotlib_cppConfig.cmake
