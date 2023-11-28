@@ -111,6 +111,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named contour_example
+
+# Build rule for target.
+contour_example: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 contour_example
+.PHONY : contour_example
+
+# fast build rule for target.
+contour_example/fast:
+	$(MAKE) -f CMakeFiles/contour_example.dir/build.make CMakeFiles/contour_example.dir/build
+.PHONY : contour_example/fast
+
+#=============================================================================
 # Target rules for targets named function_surface
 
 # Build rule for target.
@@ -135,6 +148,33 @@ example: cmake_check_build_system
 example/fast:
 	$(MAKE) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/build
 .PHONY : example/fast
+
+contour_example.o: contour_example.cpp.o
+
+.PHONY : contour_example.o
+
+# target to build an object file
+contour_example.cpp.o:
+	$(MAKE) -f CMakeFiles/contour_example.dir/build.make CMakeFiles/contour_example.dir/contour_example.cpp.o
+.PHONY : contour_example.cpp.o
+
+contour_example.i: contour_example.cpp.i
+
+.PHONY : contour_example.i
+
+# target to preprocess a source file
+contour_example.cpp.i:
+	$(MAKE) -f CMakeFiles/contour_example.dir/build.make CMakeFiles/contour_example.dir/contour_example.cpp.i
+.PHONY : contour_example.cpp.i
+
+contour_example.s: contour_example.cpp.s
+
+.PHONY : contour_example.s
+
+# target to generate assembly for a file
+contour_example.cpp.s:
+	$(MAKE) -f CMakeFiles/contour_example.dir/build.make CMakeFiles/contour_example.dir/contour_example.cpp.s
+.PHONY : contour_example.cpp.s
 
 example.o: example.cpp.o
 
@@ -198,8 +238,12 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
+	@echo "... contour_example"
 	@echo "... function_surface"
 	@echo "... example"
+	@echo "... contour_example.o"
+	@echo "... contour_example.i"
+	@echo "... contour_example.s"
 	@echo "... example.o"
 	@echo "... example.i"
 	@echo "... example.s"

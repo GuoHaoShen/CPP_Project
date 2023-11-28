@@ -6,3 +6,11 @@
 
 #IncludeRegexTransform: 
 
+/mnt/d/Project/CPP_Project/matplotlib_test/example.cpp
+matplotlibcpp.h
+/mnt/d/Project/CPP_Project/matplotlib_test/matplotlibcpp.h
+vector
+-
+cmath
+-
+

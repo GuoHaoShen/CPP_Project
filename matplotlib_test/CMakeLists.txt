@@ -10,3 +10,6 @@ target_link_libraries(example Python3::Python)
 
 add_executable(function_surface function_surface.cpp)
 target_link_libraries(function_surface Python3::Python)
+
+add_executable(contour_example contour_example.cpp)
+target_link_libraries(contour_example Python3::Python)
