@@ -1,3 +1,6 @@
 matplotlib_test/build
 numerical_optimization/build
 matplotlib-cpp/build
+g2o_test/build
+glog_test/build
+googletest_test/build

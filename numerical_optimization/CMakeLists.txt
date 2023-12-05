@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-project(MatplotlibCppExample)
+project(NumerialExample)
 
 find_package(Python3 COMPONENTS Development NumPy)
 include_directories(${Python3_INCLUDE_DIRS} ${Python3_NumPy_INCLUDE_DIRS})
