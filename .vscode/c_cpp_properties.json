@@ -5,7 +5,12 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "/usr/include/python3.8",
-                "/usr/include/eigen3"
+                "/usr/include/eigen3",
+                "/opt/ros/noetic/include/ros",
+                "/opt/ros/humble/include/**",
+                "/usr/include/opencv4",
+                "${workspaceFolder}/ros1_topic_ws/src/topic_test",
+                "${workspaceFolder}/ros1_topic_ws/src/topic_test/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

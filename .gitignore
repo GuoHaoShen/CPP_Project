@@ -1,6 +1,5 @@
-matplotlib_test/build
-numerical_optimization/build
-matplotlib-cpp/build
-g2o_test/build
-glog_test/build
-googletest_test/build
+build/
+devel/
+log/
+install/
+ros1_topic_test/.catkin_workspace
