@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="topic_test" type="topic_pub"     name="topic_pub" output="screen" />
+    <node pkg="topic_test" type="topic_sub"     name="topic_sub" output="screen" />
+</launch>
