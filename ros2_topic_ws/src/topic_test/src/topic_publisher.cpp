@@ -19,8 +19,8 @@ private:
     auto message = sensor_msgs::msg::Image();
     // message.header.stamp = this->get_clock()->now();
     message.header.frame_id = "image_frame";
-    message.height = 3000;
-    message.width = 3000;
+    message.height = 1000;
+    message.width = 1000;
     message.encoding = "rgba8";
     message.is_bigendian = false;
     message.step = message.width * 4; // Assuming 4 bytes per pixel (RGBA8)
