@@ -10,7 +10,8 @@
                 "/opt/ros/humble/include/**",
                 "/usr/include/opencv4",
                 "${workspaceFolder}/ros1_topic_ws/src/topic_test",
-                "${workspaceFolder}/ros1_topic_ws/src/topic_test/include"
+                "${workspaceFolder}/ros1_topic_ws/src/topic_test/include",
+                "${workspaceFolder}/ros2_nav_ws/src/smooth_local_planner/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
