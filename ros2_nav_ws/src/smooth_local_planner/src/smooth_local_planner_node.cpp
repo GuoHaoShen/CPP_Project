@@ -9,6 +9,8 @@ SmoothLocalPlannerNode::SmoothLocalPlannerNode(/* args */) : Node("smooth_local_
 
     config_.debug = this->declare_parameter("debug", false);
     config_.targetTopic = this->declare_parameter("targetTopic", "/goal_pose");
+    config_.obstacleTopic = this->declare_parameter("obstacleTopic", "/initialpose");
+    config_.obstacleRadius = this->declare_parameter("obstacleRadius", 1.0);
 
     std::vector<double> circle_obs_vec  = this->declare_parameter("circleObs", std::vector<double>{});
     config_.circleObs = Eigen::Map<const Eigen::Matrix<double, 3, -1, Eigen::ColMajor>>(
@@ -21,7 +23,7 @@ SmoothLocalPlannerNode::SmoothLocalPlannerNode(/* args */) : Node("smooth_local_
 
     // 订阅目标点数据
     targetSub_ = this->create_subscription<geometry_msgs::msg::PoseStamped>(
-        "/goal_pose", rclcpp::SensorDataQoS(), 
+        config_.targetTopic, rclcpp::SensorDataQoS(), 
         [this](const geometry_msgs::msg::PoseStamped::SharedPtr msg) {
             if (startGoal_.size() >= 2) {
                 startGoal_.clear();
@@ -30,11 +32,23 @@ SmoothLocalPlannerNode::SmoothLocalPlannerNode(/* args */) : Node("smooth_local_
             RCLCPP_INFO(logger_, "Get target Information:");
             RCLCPP_INFO(logger_, "position: x=%f, y=%f, z=%f", 
                 msg->pose.position.x, msg->pose.position.y, msg->pose.position.z);
-
-            visualizer_->visualizeDisks(config_.circleObs);
         });
 
-    timer_ = this->create_wall_timer(std::chrono::milliseconds(1000), std::bind(&SmoothLocalPlannerNode::plan, this));
+    // 订阅障碍物数据
+    obstacleSub_ = this->create_subscription<geometry_msgs::msg::PoseWithCovarianceStamped>(
+        config_.obstacleTopic, rclcpp::SensorDataQoS(), 
+        [this](const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg) {
+            int newCols = config_.circleObs.cols() + 1;
+            config_.circleObs.conservativeResize(3, newCols);
+            config_.circleObs.col(newCols - 1) << msg->pose.pose.position.x, msg->pose.pose.position.y, config_.obstacleRadius;
+
+            RCLCPP_INFO(logger_, "Get obstacle Information:");
+            RCLCPP_INFO(logger_, "position: x=%f, y=%f, z=%f", 
+                msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z);
+
+        });
+
+    clock_timer_ = this->create_wall_timer(std::chrono::milliseconds(100), std::bind(&SmoothLocalPlannerNode::plan, this));
 
 }
 
@@ -46,6 +60,9 @@ void SmoothLocalPlannerNode::plan()
 {
     if (startGoal_.size() == 2)
     {
+        updateConfig();
+        timer_.start();
+        rclcpp::Time start = this->get_clock()->now(); // 开始计时
         const int N = (startGoal_.back() - startGoal_.front()).norm() / config_.pieceLength;
         Eigen::Matrix2Xd innerPoints(2, N - 1);
         for (int i = 0; i < N - 1; ++i)
@@ -66,12 +83,27 @@ void SmoothLocalPlannerNode::plan()
 
         if (curve.getPieceNum() > 0)
         {
+            timer_.stop();
             std::cout << "path smoother successed" << std::endl;
             std::cout << "piece number is: " << curve.getPieceNum() << std::endl;
+            std::cout << "Average time: " << timer_.averageTime() << " ms" << std::endl;
             visualizer_->visualize(curve);
         }
     }
+
+    visualizer_->visualizeDisks(config_.circleObs);
 }
+
+void SmoothLocalPlannerNode::updateConfig()
+{
+    config_.debug =  get_parameter("debug").as_bool(); // this->declare_parameter("debug", false);
+    config_.obstacleRadius = get_parameter("obstacleRadius").as_double();
+
+    config_.penaltyWeight = get_parameter("penaltyWeight").as_double();
+    config_.pieceLength = get_parameter("pieceLength").as_double();
+    config_.relCostTol = get_parameter("relCostTol").as_double();
+}
+
 
 }; // end namespace smooth_local_planner
 

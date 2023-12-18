@@ -9,8 +9,11 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/pose_stamped.hpp"
+#include "geometry_msgs/msg/pose_with_covariance_stamped.hpp"
+
 #include "smooth_local_planner/visualizer.hpp"
 #include "smooth_local_planner/path_smoother.hpp"
+#include "smooth_local_planner/timer.hpp"
 
 namespace smooth_local_planner
 {
@@ -27,6 +30,16 @@ struct PlannerConfig
      * @brief 目标点话题名
     */
     std::string targetTopic;
+
+    /**
+     * @brief 障碍话题名
+    */
+    std::string obstacleTopic;
+
+    /**
+     * @brief 障碍物半径
+    */
+    double obstacleRadius;
 
     /**
      * @brief 圆形障碍物
@@ -62,7 +75,10 @@ private:
 
     std::vector<Eigen::Vector2d> startGoal_;
     rclcpp::Subscription<geometry_msgs::msg::PoseStamped>::SharedPtr targetSub_;
-    rclcpp::TimerBase::SharedPtr timer_;
+    rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr obstacleSub_;
+    rclcpp::TimerBase::SharedPtr clock_timer_;
+
+    Timer timer_;
 
     PlannerConfig config_;  // config of  SmoothLocalPlanner
 
@@ -70,6 +86,11 @@ private:
      * @brief 实现局部路径规划函数
     */
     void plan();
+
+    /**
+     * @brief 更新参数
+    */
+    void updateConfig();
 
 public:
 
