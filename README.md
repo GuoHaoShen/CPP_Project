@@ -56,4 +56,4 @@ Module List
 
 * ros2_nav_ws
 
-  ros2与导航功能学习工作空间
+  ros2与导航功能学习工作空间，完成smooth_local_planner
