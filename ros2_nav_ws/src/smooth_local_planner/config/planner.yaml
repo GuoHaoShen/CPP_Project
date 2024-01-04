@@ -1,0 +1,13 @@
+/smooth_local_planner:
+  ros__parameters:
+    debug: false
+    param1: 1
+    qos_overrides:
+      /parameter_events:
+        publisher:
+          depth: 1000
+          durability: volatile
+          history: keep_last
+          reliability: reliable
+    use_sim_time: false
+
